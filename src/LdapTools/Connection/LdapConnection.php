@@ -256,7 +256,13 @@ class LdapConnection implements LdapConnectionInterface
             $this->connect();
         }
 
-        if (!@ldap_set_option($this->connection, LDAP_OPT_SERVER_CONTROLS, [$control->toArray()]) && $control->getCriticality()) {
+        $controls = null;
+        ldap_get_option($this->connection, LDAP_OPT_SERVER_CONTROLS, $controls);
+        $controls = array_values(array_filter($controls ?: [], function (array $existing) use ($control) {
+            return $existing['oid'] !== (string) $control->getOid();
+        }));
+        $controls[] = $control->toArray();
+        if (!@ldap_set_option($this->connection, LDAP_OPT_SERVER_CONTROLS, $controls)) {
             throw new LdapConnectionException(sprintf('Unable to set control for OID "%s".', $control->getOid()));
         }
     }

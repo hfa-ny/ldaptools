@@ -30,6 +30,8 @@ class QueryOperationHandlerSpec extends ObjectBehavior
     {
         $this->beConstructedWith($pager);
         $this->setConnection($connection);
+        $pager->abandon(Argument::type(\Closure::class))->willReturn(null);
+        $pager->end()->willReturn(null);
     }
 
     function it_is_initializable()

@@ -36,7 +36,7 @@ class OperationHandler implements OperationHandlerInterface
             $operation->getLdapFunction(),
             $resource,
             ...$operation->getArguments()
-        ) : null;
+        ) : false;
 
         if ($result === false) {
             throw new LdapConnectionException(sprintf(

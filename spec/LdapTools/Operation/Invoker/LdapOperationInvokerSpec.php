@@ -180,9 +180,16 @@ class LdapOperationInvokerSpec extends ObjectBehavior
         $this->execute($operation);
     }
 
-    function it_should_trigger_an_event_before_and_after_operation_execution($dispatcher)
+    function it_should_trigger_an_event_before_and_after_operation_execution($dispatcher, $connection, OperationHandler $handler)
     {
-        $operation = new DeleteOperation('dc=foo,dc=bar');
+        $operation = (new DeleteOperation('dc=foo,dc=bar'))->setServer('foo');
+
+        $handler->supports($operation)->willReturn(true);
+        $handler->setConnection($connection)->shouldBeCalled();
+        $handler->setEventDispatcher($dispatcher)->shouldBeCalled();
+        $handler->setOperationDefaults($operation)->shouldBeCalled();
+        $handler->execute($operation)->willReturn(true);
+        $this->addHandler($handler);
 
         $dispatcher->dispatch(Argument::which('getName', Event::LDAP_OPERATION_EXECUTE_BEFORE))->shouldBeCalled();
         $dispatcher->dispatch(Argument::which('getName', Event::LDAP_OPERATION_EXECUTE_AFTER))->shouldBeCalled();

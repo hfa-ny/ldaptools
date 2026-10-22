@@ -1,4 +1,4 @@
-# LdapTools [![Build Status](https://travis-ci.org/ldaptools/ldaptools.svg)](https://travis-ci.org/ldaptools/ldaptools) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/ldaptools/ldaptools?branch=master&svg=true)](https://ci.appveyor.com/project/ChadSikorra/ldaptools) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ldaptools/ldaptools/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ldaptools/ldaptools/?branch=master) [![Latest Stable Version](https://poser.pugx.org/ldaptools/ldaptools/v/stable.svg)](https://packagist.org/packages/ldaptools/ldaptools)
+# LdapTools
 -----------
 ## A fork with upgrades to the original repo https://github.com/ldaptools/ldaptools for PHP 8.2+ compatibility
 
@@ -15,11 +15,41 @@ directory service, but contains default attribute converters and schemas for Act
 
 ### Installation
 
-The recommended way to install LdapTools is using [Composer](http://getcomposer.org/download/):
+This fork requires PHP 8.2+ and the LDAP extension. Install it using
+[Composer](https://getcomposer.org/) with an explicit VCS repository:
 
 ```bash
-composer require ldaptools/ldaptools
+composer config repositories.ldaptools vcs https://github.com/hfa-ny/ldaptools.git
+composer require ldaptools/ldaptools:dev-master
 ```
+
+For deployment, pin a reviewed commit or release in your lock file; do not update
+production directly from a moving branch. This command is for a separate staging
+application, not an instruction to update an existing live installation.
+
+### PHP compatibility validation
+
+```bash
+composer install
+composer test:php8
+```
+
+The regression suite replaces LDAP calls in its own process and never connects
+to a directory. CI runs it on PHP 8.2, 8.3, 8.4, and 8.5. It covers paged results,
+result limits, binary cookies, preservation/restoration of other LDAP controls,
+failure cleanup, and invalid write connections. The legacy PhpSpec suite remains
+available via `bin/phpspec run`.
+
+Paging is critical: servers that do not support it, omit its response cookie,
+or return an LDAP error cause an exception rather than an incomplete successful
+result. Other server controls are preserved, and unfinished cursors are abandoned
+when a client-side result limit is reached.
+
+These checks are not AD integration certification. Before production use, validate
+StartTLS/certificate trust, searches exceeding 1,000 objects, additional controls,
+attribute conversions, account/password/group changes, and OU moves against an
+isolated test directory. A copy of an application's source still uses production
+services unless its configuration and credentials have also been isolated.
 
 ### Getting Started
 

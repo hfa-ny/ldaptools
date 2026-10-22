@@ -53,8 +53,8 @@ class DoctrineCacheSpec extends ObjectBehavior
 
     function it_should_support_setting_the_cache_folder()
     {
-        $this->setCacheFolder('/tmp/foo/bar');
-        $this->getCacheFolder()->shouldBeEqualTo('/tmp/foo/bar');
+        $this->setCacheFolder($this->testCacheDir);
+        $this->getCacheFolder()->shouldBeEqualTo($this->testCacheDir);
     }
 
     function it_should_return_a_default_cache_prefix_of_ldaptools_when_calling_getCachePrefix()
@@ -70,8 +70,8 @@ class DoctrineCacheSpec extends ObjectBehavior
 
     function it_should_recognize_the_cache_folder_option()
     {
-        $this->setOptions(['cache_folder' => '/tmp/foo/bar']);
-        $this->getCacheFolder()->shouldBeEqualTo('/tmp/foo/bar');
+        $this->setOptions(['cache_folder' => $this->testCacheDir]);
+        $this->getCacheFolder()->shouldBeEqualTo($this->testCacheDir);
     }
 
     function it_should_return_null_on_an_item_not_in_the_cache_when_calling_get()

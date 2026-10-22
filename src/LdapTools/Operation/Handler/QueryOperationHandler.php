@@ -49,22 +49,48 @@ class QueryOperationHandler implements OperationHandlerInterface
         /** @var QueryOperation $operation */
         $this->paging()->setIsEnabled($this->shouldUsePaging($operation));
         $this->paging()->start($operation->getPageSize(), $operation->getSizeLimit());
-        do {
-            $this->paging()->next();
-
+        $search = function () use ($operation) {
             $resource = $this->connection->getResource();
-            $result = ($resource instanceof \LDAP\Connection || is_resource($resource)) ? @call_user_func(
+            return ($resource instanceof \LDAP\Connection || is_resource($resource)) ? @call_user_func(
                 $operation->getLdapFunction(),
                 $resource,
                 ...$operation->getArguments()
             ) : false;
-            $allEntries = $this->processSearchResult($result, $allEntries);
-
-            $this->paging()->update($result);
-        } while ($this->paging()->isActive());
-        $this->paging()->end();
-        if ($result instanceof \LDAP\Result || is_resource($result)) {
-            @ldap_free_result($result);
+        };
+        $failure = null;
+        try {
+            do {
+                $this->paging()->next();
+                $result = $search();
+                try {
+                    if (!$result) {
+                        $this->processSearchResult($result, $allEntries);
+                    }
+                    $this->paging()->update($result);
+                    $allEntries = $this->processSearchResult($result, $allEntries);
+                } finally {
+                    if ($result instanceof \LDAP\Result || is_resource($result)) {
+                        ldap_free_result($result);
+                    }
+                }
+            } while ($this->paging()->isActive());
+        } catch (\Throwable $e) {
+            $failure = $e;
+            throw $e;
+        } finally {
+            try {
+                try {
+                    $this->paging()->abandon($search);
+                } finally {
+                    $this->paging()->end();
+                }
+            } catch (\Throwable $cleanupError) {
+                throw new LdapConnectionException(
+                    ($failure ? $failure->getMessage().'; ' : '').'LDAP paging cleanup failed: '.$cleanupError->getMessage(),
+                    (int) $cleanupError->getCode(),
+                    $failure ?: $cleanupError
+                );
+            }
         }
 
         return $allEntries;
@@ -135,9 +161,19 @@ class QueryOperationHandler implements OperationHandlerInterface
             ), (int) $this->connection->getLastErrorNumber());
         }
 
+        if (!$this->paging()->isEnabled()) {
+            $code = $dn = $message = $refs = null;
+            $controls = [];
+            if (!ldap_parse_result($this->connection->getResource(), $result, $code, $dn, $message, $refs, $controls)) {
+                throw new LdapConnectionException('Unable to parse the LDAP search result.');
+            }
+            if ($code !== 0) {
+                throw new LdapConnectionException(sprintf('LDAP search failed (%s): %s', $code, $message), (int) $code);
+            }
+        }
         $entries = @ldap_get_entries($this->connection->getResource(), $result);
         if (!$entries) {
-            return $allEntries;
+            throw new LdapConnectionException('Unable to read the LDAP search entries.');
         }
         $allEntries['count'] = isset($allEntries['count']) ? $allEntries['count'] + $entries['count'] : $entries['count'];
         unset($entries['count']);
