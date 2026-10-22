@@ -52,7 +52,7 @@ trait HydrateQueryTrait
      * @param LdapObjectSchema|null $schema
      * @return array
      */
-    protected function getSelectedQueryAttributes(array $attributes, LdapObjectSchema $schema = null)
+    protected function getSelectedQueryAttributes(array $attributes, ?LdapObjectSchema $schema = null)
     {
         // Interpret a single wildcard as only schema attributes.
         if ($schema && !empty($attributes) && $attributes[0] == '*') {
@@ -95,7 +95,7 @@ trait HydrateQueryTrait
      * @param null|string $alias
      * @return array
      */
-    protected function getAttributesToLdap(array $attributes, $translate, LdapObjectSchema $schema = null, $alias = null)
+    protected function getAttributesToLdap(array $attributes, $translate, ?LdapObjectSchema $schema = null, $alias = null)
     {
         // First determine if this was some sort of wildcard selection
         $attributes = $this->getSelectedQueryAttributes($attributes, $schema);

@@ -32,8 +32,8 @@
         "ext-intl": "Better UTF-8 handling."
     },
     "require-dev": {
-        "phpspec/phpspec": "~3.0",
-        "friendsofphp/php-cs-fixer": "~1.0",
+        "phpspec/phpspec": "~3.0 || ^7.0 || ^8.0",
+        "friendsofphp/php-cs-fixer": "~1.0 || ^3.0",
         "tedivm/stash": ">=0.14.1",
         "doctrine/cache": "~1.0"
     },

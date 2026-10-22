@@ -32,7 +32,7 @@ class AttributeNameResolver
     /**
      * @param LdapObjectSchema $schema
      */
-    public function __construct(LdapObjectSchema $schema = null)
+    public function __construct(?LdapObjectSchema $schema = null)
     {
         $this->schema = $schema;
     }

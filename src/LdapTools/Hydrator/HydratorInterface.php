@@ -49,7 +49,7 @@ interface HydratorInterface
      *
      * @param LdapObjectSchema|null $schema
      */
-    public function setLdapObjectSchema(LdapObjectSchema $schema = null);
+    public function setLdapObjectSchema(?LdapObjectSchema $schema = null);
 
     /**
      * Get the LdapObjectSchema that has been set.
@@ -79,7 +79,7 @@ interface HydratorInterface
      *
      * @param LdapConnectionInterface|null $connection
      */
-    public function setLdapConnection(LdapConnectionInterface $connection = null);
+    public function setLdapConnection(?LdapConnectionInterface $connection = null);
 
     /**
      * Set the LDAP operation type that is requesting this hydration.

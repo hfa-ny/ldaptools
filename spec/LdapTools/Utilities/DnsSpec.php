@@ -21,6 +21,6 @@ class DnsSpec extends ObjectBehavior
 
     function it_should_get_a_dns_record()
     {
-        $this->getRecord('127.0.0.1')->shouldBeArray();
+        $this->getRecord('localhost')->shouldBeArray();
     }
 }

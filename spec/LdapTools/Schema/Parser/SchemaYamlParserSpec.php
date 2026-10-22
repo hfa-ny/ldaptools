@@ -410,7 +410,7 @@ class SchemaYamlParserSpec extends ObjectBehavior
         $this->shouldThrow('LdapTools\Exception\SchemaParserException')->duringParseAll('invalid_schema_directive');
     }
 
-    function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'returnAnArrayOfLdapObjectSchemas' => function($ldapObjectSchemas) {

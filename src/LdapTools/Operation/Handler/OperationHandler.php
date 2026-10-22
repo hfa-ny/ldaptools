@@ -31,11 +31,12 @@ class OperationHandler implements OperationHandlerInterface
      */
     public function execute(LdapOperationInterface $operation)
     {
-        $result = @call_user_func(
+        $resource = $this->connection->getResource();
+        $result = ($resource instanceof \LDAP\Connection || is_resource($resource)) ? @call_user_func(
             $operation->getLdapFunction(),
-            $this->connection->getResource(),
+            $resource,
             ...$operation->getArguments()
-        );
+        ) : null;
 
         if ($result === false) {
             throw new LdapConnectionException(sprintf(
@@ -43,7 +44,7 @@ class OperationHandler implements OperationHandlerInterface
                 $this->connection->getLastErrorNumber(),
                 $operation->getName(),
                 $this->connection->getDiagnosticMessage()
-            ), $this->connection->getLastErrorNumber());
+            ), (int) $this->connection->getLastErrorNumber());
         }
 
         return $result;

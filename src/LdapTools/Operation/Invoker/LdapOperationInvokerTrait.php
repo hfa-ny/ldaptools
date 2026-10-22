@@ -68,7 +68,7 @@ trait LdapOperationInvokerTrait
     /**
      * @param LdapLoggerInterface $logger
      */
-    public function setLogger(LdapLoggerInterface $logger = null)
+    public function setLogger(?LdapLoggerInterface $logger = null)
     {
         $this->logger = $logger;
     }
@@ -96,7 +96,7 @@ trait LdapOperationInvokerTrait
      * @param \Throwable|\Exception $exception
      * @throws \LdapTools\Exception\LdapConnectionException
      */
-    protected function logExceptionAndThrow($exception, LogOperation $log = null)
+    protected function logExceptionAndThrow($exception, ?LogOperation $log = null)
     {
         if ($this->shouldLog($log) && is_null($log->getStartTime())) {
             $this->logStart($log);
@@ -113,7 +113,7 @@ trait LdapOperationInvokerTrait
      *
      * @param LogOperation|null $log
      */
-    protected function logStart(LogOperation $log = null)
+    protected function logStart(?LogOperation $log = null)
     {
         if ($this->shouldLog($log)) {
             $this->logger->start($log->start());
@@ -125,7 +125,7 @@ trait LdapOperationInvokerTrait
      *
      * @param LogOperation|null $log
      */
-    protected function logEnd(LogOperation $log = null)
+    protected function logEnd(?LogOperation $log = null)
     {
         if ($this->shouldLog($log)) {
             $this->logger->end($log->stop());
@@ -138,7 +138,7 @@ trait LdapOperationInvokerTrait
      * @param LogOperation|null $log
      * @return bool
      */
-    protected function shouldLog(LogOperation $log = null)
+    protected function shouldLog(?LogOperation $log = null)
     {
         return !(is_null($log) || is_null($this->logger));
     }

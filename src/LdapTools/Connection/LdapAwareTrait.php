@@ -25,7 +25,7 @@ trait LdapAwareTrait
     /**
      * @param LdapConnectionInterface|null $connection
      */
-    public function setLdapConnection(LdapConnectionInterface $connection = null)
+    public function setLdapConnection(?LdapConnectionInterface $connection = null)
     {
         $this->connection = $connection;
     }

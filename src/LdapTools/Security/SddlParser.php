@@ -56,7 +56,7 @@ class SddlParser
     /**
      * @param LdapConnectionInterface|null $connection
      */
-    public function __construct(LdapConnectionInterface $connection = null)
+    public function __construct(?LdapConnectionInterface $connection = null)
     {
         $this->connection = $connection;
     }

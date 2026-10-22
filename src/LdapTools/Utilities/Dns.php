@@ -25,6 +25,6 @@ class Dns
      */
     public function getRecord(...$arguments)
     {
-        return dns_get_record(...$arguments);
+        return @dns_get_record(...$arguments);
     }
 }

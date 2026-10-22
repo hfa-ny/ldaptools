@@ -150,7 +150,7 @@ class ArrayToOperator
      * @param BaseOperator|null $operator
      * @return BaseOperator
      */
-    protected function getOperatorForArray(array $filter, BaseOperator $operator = null)
+    protected function getOperatorForArray(array $filter, ?BaseOperator $operator = null)
     {
         $filter = !empty($filter) ? $this->filterBuilder->bAnd(...$this->parseFilterToOperators($filter)) : null;
         

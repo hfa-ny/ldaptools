@@ -76,7 +76,7 @@ abstract class BaseValueResolver
      * @param LdapObjectSchema $schema
      * @param int $type
      */
-    public function __construct(LdapObjectSchema $schema = null, $type)
+    public function __construct(?LdapObjectSchema $schema, $type)
     {
         $this->type = $type;
         $this->schema = $schema;
@@ -87,7 +87,7 @@ abstract class BaseValueResolver
      *
      * @param LdapOperationInterface|null $operation
      */
-    public function setOperation(LdapOperationInterface $operation = null)
+    public function setOperation(?LdapOperationInterface $operation = null)
     {
         $this->operation = $operation;
     }
@@ -120,7 +120,7 @@ abstract class BaseValueResolver
      * @param int $type
      * @return AttributeValueResolver|BatchValueResolver
      */
-    public static function getInstance(LdapObjectSchema $schema = null, $values, $type)
+    public static function getInstance(?LdapObjectSchema $schema, $values, $type)
     {
         $instance = AttributeValueResolver::class;
         
@@ -142,7 +142,7 @@ abstract class BaseValueResolver
      * @param AttributeConverterInterface|null $aggregate
      * @return array
      */
-    protected function getConvertedValues($values, $attribute, $direction, AttributeConverterInterface $aggregate = null)
+    protected function getConvertedValues($values, $attribute, $direction, ?AttributeConverterInterface $aggregate = null)
     {
         $values = is_array($values) ? $values : [$values];
         $converter = $this->getConverterWithOptions($this->schema->getConverter($attribute), $attribute);
@@ -220,7 +220,7 @@ abstract class BaseValueResolver
      * @param AttributeConverterInterface|null $aggregate
      * @return mixed
      */
-    protected function doConvertValues($attribute, array $values, $direction, AttributeConverterInterface $aggregate = null)
+    protected function doConvertValues($attribute, array $values, $direction, ?AttributeConverterInterface $aggregate = null)
     {
         $converter = $aggregate ?: $this->getConverterWithOptions($this->schema->getConverter($attribute), $attribute);
         $converter->setAttribute($attribute);

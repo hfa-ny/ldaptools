@@ -79,7 +79,7 @@ trait CacheableOperationTrait
      * @param \DateTimeInterface|null $dateTime
      * @return $this
      */
-    public function setExpireCacheAt(\DateTimeInterface $dateTime = null)
+    public function setExpireCacheAt(?\DateTimeInterface $dateTime = null)
     {
         $this->cacheExpiresAt = $dateTime;
 

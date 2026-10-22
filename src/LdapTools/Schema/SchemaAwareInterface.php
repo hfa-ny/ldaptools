@@ -18,7 +18,7 @@ interface SchemaAwareInterface
     /**
      * @param LdapObjectSchema|null $schema
      */
-    public function setLdapObjectSchema(LdapObjectSchema $schema = null);
+    public function setLdapObjectSchema(?LdapObjectSchema $schema = null);
 
     /**
      * @return LdapObjectSchema|null

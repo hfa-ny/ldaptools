@@ -821,7 +821,7 @@ class LdapQuerySpec extends ObjectBehavior
         $this->getQueryOperation()->getExpireCacheAt()->shouldBeEqualTo($date);
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveKeys' => function($subject, $keys) {

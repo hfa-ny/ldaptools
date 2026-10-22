@@ -66,7 +66,7 @@ trait AttributeConverterTrait
      * @param LdapConnectionInterface|null $connection
      * @return $this
      */
-    public function setLdapConnection(LdapConnectionInterface $connection = null)
+    public function setLdapConnection(?LdapConnectionInterface $connection = null)
     {
         $this->connection = $connection;
 

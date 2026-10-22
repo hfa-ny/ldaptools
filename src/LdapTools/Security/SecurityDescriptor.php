@@ -186,7 +186,7 @@ class SecurityDescriptor
      * @param Dacl $dacl
      * @return $this
      */
-    public function setDacl(Dacl $dacl = null)
+    public function setDacl(?Dacl $dacl = null)
     {
         $this->dacl = $dacl;
 
@@ -209,7 +209,7 @@ class SecurityDescriptor
      * @param Sacl $sacl
      * @return $this
      */
-    public function setSacl(Sacl $sacl = null)
+    public function setSacl(?Sacl $sacl = null)
     {
         $this->sacl = $sacl;
 

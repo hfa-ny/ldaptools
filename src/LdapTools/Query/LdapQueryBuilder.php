@@ -73,7 +73,7 @@ class LdapQueryBuilder
      * @param LdapConnectionInterface $connection
      * @param LdapObjectSchemaFactory $schemaFactory
      */
-    public function __construct(LdapConnectionInterface $connection = null, LdapObjectSchemaFactory $schemaFactory = null)
+    public function __construct(?LdapConnectionInterface $connection = null, ?LdapObjectSchemaFactory $schemaFactory = null)
     {
         $this->connection = $connection;
         $this->schemaFactory = $schemaFactory;

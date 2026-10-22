@@ -180,7 +180,7 @@ class ParameterResolverSpec extends ObjectBehavior
         $this::hasParameters($attributes)->shouldBeEqualTo(false);
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveKeyWithValue' => function($subject, $key, $value) {

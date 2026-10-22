@@ -79,7 +79,7 @@ class LdapUtilities
     public static function escapeValue($value, $ignore = null, $flags = null)
     {
         // If this is a hexadecimal escaped string, then do not escape it.
-        $value = preg_match('/^(\\\[0-9a-fA-F]{2})+$/', (string) $value) ? $value : ldap_escape($value, $ignore, $flags);
+        $value = preg_match('/^(\\\[0-9a-fA-F]{2})+$/', (string) $value) ? $value : ldap_escape((string) $value, (string) $ignore, (int) $flags);
 
         // Per RFC 4514, leading/trailing spaces should be encoded in DNs, as well as carriage returns.
         if ((int)$flags & LDAP_ESCAPE_DN) {
@@ -193,7 +193,7 @@ class LdapUtilities
             $value = iconv(mb_detect_encoding($value, mb_detect_order(), true), $toEncoding, $value);
         } else {
             // How else to better handle if they don't have mb_* ? The below is definitely not an optimal solution.
-            $value = utf8_encode($value);
+            $value = iconv('ISO-8859-1', $toEncoding, $value);
         }
 
         return $value;
@@ -209,7 +209,7 @@ class LdapUtilities
      */
     public static function isValidLdapObjectDn($dn)
     {
-        return (($pieces = ldap_explode_dn($dn, 1)) && isset($pieces['count']) && $pieces['count'] >= 2);
+        return (($pieces = ldap_explode_dn((string) $dn, 1)) && isset($pieces['count']) && $pieces['count'] >= 2);
     }
 
     /**
@@ -221,7 +221,7 @@ class LdapUtilities
      */
     public static function isValidAttributeFormat($value)
     {
-        return (preg_match(self::MATCH_DESCRIPTOR, $value) || preg_match(self::MATCH_OID, $value));
+        return (preg_match(self::MATCH_DESCRIPTOR, (string) $value) || preg_match(self::MATCH_OID, (string) $value));
     }
 
     /**

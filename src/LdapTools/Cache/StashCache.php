@@ -38,7 +38,7 @@ class StashCache implements CacheInterface
      */
     protected $useAutoCache = true;
 
-    public function __construct(PoolInterface $pool = null)
+    public function __construct(?PoolInterface $pool = null)
     {
         if ($pool) {
             $this->pool = $pool;
@@ -131,7 +131,7 @@ class StashCache implements CacheInterface
      */
     public function delete($key)
     {
-        return $this->getPool()->getItem($this->getCacheName($key))->clear();
+        return @$this->getPool()->getItem($this->getCacheName($key))->clear();
     }
 
     /**
@@ -139,7 +139,7 @@ class StashCache implements CacheInterface
      */
     public function deleteAll()
     {
-        return $this->getPool()->clear();
+        return @$this->getPool()->clear();
     }
 
     /**

@@ -61,7 +61,7 @@ interface AttributeConverterInterface
      *
      * @param LdapConnectionInterface $connection
      */
-    public function setLdapConnection(LdapConnectionInterface $connection);
+    public function setLdapConnection(?LdapConnectionInterface $connection = null);
 
     /**
      * Sets options that may be recognized by the converter.

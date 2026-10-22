@@ -54,6 +54,11 @@ class LdapObjectManager
     protected $dispatcher;
 
     /**
+     * @var OperationHydrator
+     */
+    protected $hydrator;
+
+    /**
      * @param LdapConnectionInterface $connection
      * @param LdapObjectSchemaFactory $schemaFactory
      * @param EventDispatcherInterface $dispatcher

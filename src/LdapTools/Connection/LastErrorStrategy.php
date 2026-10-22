@@ -61,7 +61,7 @@ class LastErrorStrategy
      */
     public function getLastErrorMessage()
     {
-        return @ldap_error($this->connection);
+        return $this->isValidConnection() ? @ldap_error($this->connection) : null;
     }
 
     /**
@@ -71,7 +71,7 @@ class LastErrorStrategy
      */
     public function getErrorNumber()
     {
-        return @ldap_errno($this->connection);
+        return $this->isValidConnection() ? @ldap_errno($this->connection) : 0;
     }
 
     /**
@@ -93,8 +93,19 @@ class LastErrorStrategy
      */
     public function getDiagnosticMessage()
     {
-        @ldap_get_option($this->connection, constant($this->diagnosticOpt), $message);
+        $message = null;
+        if ($this->isValidConnection()) {
+            @ldap_get_option($this->connection, constant($this->diagnosticOpt), $message);
+        }
         
         return $message;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isValidConnection()
+    {
+        return $this->connection instanceof \LDAP\Connection || is_resource($this->connection);
     }
 }

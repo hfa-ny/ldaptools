@@ -162,7 +162,7 @@ abstract class BaseOperator
      */
     public function setAttribute($attribute)
     {
-        if (strpos($attribute, '.') !== false) {
+        if ($attribute !== null && strpos($attribute, '.') !== false) {
             $pieces = explode('.', $attribute, 2);
             $this->setAlias($pieces[0]);
             $attribute = $pieces[1];

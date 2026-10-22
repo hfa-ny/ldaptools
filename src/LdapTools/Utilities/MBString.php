@@ -102,10 +102,10 @@ class MBString
     public static function strtolower($value)
     {
         if (self::isMbstringLoaded()) {
-            return mb_strtolower($value, 'UTF-8');
+            return mb_strtolower((string) $value, 'UTF-8');
         }
 
-        return strtolower($value);
+        return strtolower((string) $value);
     }
 
     /**

@@ -208,7 +208,7 @@ class MatchingRuleSpec extends ObjectBehavior
         $this->toLdapFilter()->shouldBeEqualTo('(:dn:2.4.8.10:=America)');
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveConstant' => function($subject, $constant) {

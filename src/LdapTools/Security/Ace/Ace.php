@@ -189,7 +189,7 @@ class Ace
      * @param null|AceObjectFlags $objectFlags
      * @return $this
      */
-    public function setObjectFlags(AceObjectFlags $objectFlags = null)
+    public function setObjectFlags(?AceObjectFlags $objectFlags = null)
     {
         $this->objectFlags = $objectFlags;
 

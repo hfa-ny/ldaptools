@@ -34,7 +34,7 @@ class QueryOperationHandler implements OperationHandlerInterface
     /**
      * @param PageControl|null $paging
      */
-    public function __construct(PageControl $paging = null)
+    public function __construct(?PageControl $paging = null)
     {
         $this->paging = $paging;
     }
@@ -52,17 +52,20 @@ class QueryOperationHandler implements OperationHandlerInterface
         do {
             $this->paging()->next();
 
-            $result = @call_user_func(
+            $resource = $this->connection->getResource();
+            $result = ($resource instanceof \LDAP\Connection || is_resource($resource)) ? @call_user_func(
                 $operation->getLdapFunction(),
-                $this->connection->getResource(),
+                $resource,
                 ...$operation->getArguments()
-            );
+            ) : false;
             $allEntries = $this->processSearchResult($result, $allEntries);
 
             $this->paging()->update($result);
         } while ($this->paging()->isActive());
         $this->paging()->end();
-        @ldap_free_result($result);
+        if ($result instanceof \LDAP\Result || is_resource($result)) {
+            @ldap_free_result($result);
+        }
 
         return $allEntries;
     }
@@ -129,7 +132,7 @@ class QueryOperationHandler implements OperationHandlerInterface
                 'LDAP search failed (%s). Diagnostic message: "%s"',
                 $this->connection->getLastErrorNumber(),
                 $this->connection->getDiagnosticMessage()
-            ), $this->connection->getLastErrorNumber());
+            ), (int) $this->connection->getLastErrorNumber());
         }
 
         $entries = @ldap_get_entries($this->connection->getResource(), $result);

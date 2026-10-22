@@ -89,7 +89,7 @@ class TSPropertySpec extends ObjectBehavior
         $this->toBinary()->shouldHaveHex($hex);
     }
     
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveHex' => function($subject, $value) {

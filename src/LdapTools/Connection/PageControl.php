@@ -10,6 +10,7 @@
 
 namespace LdapTools\Connection;
 
+use LdapTools\Enums\LdapControlOid;
 use LdapTools\Exception\LdapConnectionException;
 
 /**
@@ -101,19 +102,35 @@ class PageControl
         if ($this->sizeLimit && ($this->resultNumber + $this->pageSize) > $this->sizeLimit) {
             $this->pageSize = $this->sizeLimit - $this->resultNumber;
         }
-        if (!@ldap_control_paged_result($this->connection->getResource(), $this->pageSize, false, $this->cookie)) {
+        if (function_exists('ldap_control_paged_result')) {
+            $result = @ldap_control_paged_result($this->connection->getResource(), $this->pageSize, false, $this->cookie);
+        } else {
+            $control = [
+                'oid' => LdapControlOid::PagedResults,
+                'iscritical' => false,
+                'value' => [
+                    'size' => $this->pageSize,
+                    'cookie' => $this->cookie,
+                ],
+            ];
+            $resource = $this->connection->getResource();
+            $result = ($resource instanceof \LDAP\Connection || is_resource($resource))
+                ? @ldap_set_option($resource, LDAP_OPT_SERVER_CONTROLS, [$control])
+                : false;
+        }
+        if (!$result) {
             throw new LdapConnectionException(sprintf(
                 'Unable to enable paged results (%s): %s',
                 $this->connection->getLastErrorNumber(),
                 $this->connection->getLastError()
-            ), $this->connection->getLastErrorNumber());
+            ), (int) $this->connection->getLastErrorNumber());
         }
     }
 
     /**
      * Updating the paging operation based on the result resource returned from a query.
      *
-     * @param resource $result
+     * @param resource|\LDAP\Result $result
      * @throws LdapConnectionException
      */
     public function update($result)
@@ -122,7 +139,20 @@ class PageControl
             return;
         }
         $this->resultNumber += $this->pageSize;
-        if (!@ldap_control_paged_result_response($this->connection->getResource(), $result, $this->cookie)) {
+        if (function_exists('ldap_control_paged_result_response')) {
+            $response = @ldap_control_paged_result_response($this->connection->getResource(), $result, $this->cookie);
+        } else {
+            $errcode = $dn = $errmsg = $refs = null;
+            $controls = [];
+            $resource = $this->connection->getResource();
+            $response = (($resource instanceof \LDAP\Connection || is_resource($resource)) && ($result instanceof \LDAP\Result || is_resource($result)))
+                ? @ldap_parse_result($resource, $result, $errcode, $dn, $errmsg, $refs, $controls)
+                : false;
+            $this->cookie = isset($controls[LdapControlOid::PagedResults]['value']['cookie'])
+                ? $controls[LdapControlOid::PagedResults]['value']['cookie']
+                : '';
+        }
+        if (!$response) {
             throw new LdapConnectionException(
                 sprintf('Unable to set paged results response: %s', $this->connection->getLastError())
             );
@@ -138,7 +168,15 @@ class PageControl
     {
         // Per RFC 2696, to abandon a paged search you should send a size of 0 along with the cookie used in the search.
         // However, testing this it doesn't seem to completely work. Perhaps a PHP bug?
-        if (!@ldap_control_paged_result($this->connection->getResource(), 0, false, $this->cookie)) {
+        if (function_exists('ldap_control_paged_result')) {
+            $result = @ldap_control_paged_result($this->connection->getResource(), 0, false, $this->cookie);
+        } else {
+            $resource = $this->connection->getResource();
+            $result = ($resource instanceof \LDAP\Connection || is_resource($resource))
+                ? @ldap_set_option($resource, LDAP_OPT_SERVER_CONTROLS, [])
+                : false;
+        }
+        if (!$result) {
             throw new LdapConnectionException(sprintf(
                 'Unable to reset paged results control for read operation: %s',
                 $this->connection->getLastError()

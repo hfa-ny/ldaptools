@@ -204,7 +204,7 @@ class Configuration
      * @param CacheInterface|null $cache
      * @return $this
      */
-    public function setCache(CacheInterface $cache = null)
+    public function setCache(?CacheInterface $cache = null)
     {
         $this->cache = $cache;
 

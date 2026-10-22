@@ -59,7 +59,7 @@ class LdapServerPool
      * @param TcpSocket|null $tcp
      * @param Dns|null $dns
      */
-    public function __construct(DomainConfiguration $config, TcpSocket $tcp = null, Dns $dns = null)
+    public function __construct(DomainConfiguration $config, ?TcpSocket $tcp = null, ?Dns $dns = null)
     {
         $this->config = $config;
         $this->tcp = $tcp ?: new TcpSocket();

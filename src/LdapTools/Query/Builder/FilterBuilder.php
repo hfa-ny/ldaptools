@@ -34,7 +34,7 @@ class FilterBuilder
      * @param LdapConnectionInterface|null $connection
      * @return ADFilterBuilder|FilterBuilder
      */
-    public static function getInstance(LdapConnectionInterface $connection = null)
+    public static function getInstance(?LdapConnectionInterface $connection = null)
     {
         if ($connection && $connection->getConfig()->getLdapType() == LdapConnection::TYPE_AD) {
             $filterBuilder = new ADFilterBuilder();

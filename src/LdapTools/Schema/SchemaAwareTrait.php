@@ -26,7 +26,7 @@ trait SchemaAwareTrait
      * @param LdapObjectSchema|null $schema
      * @return $this
      */
-    public function setLdapObjectSchema(LdapObjectSchema $schema = null)
+    public function setLdapObjectSchema(?LdapObjectSchema $schema = null)
     {
         $this->schema = $schema;
 

@@ -27,7 +27,7 @@ trait OperationGeneratorTrait
     /**
      * @param LdapOperationInterface $operation
      */
-    public function setOperation(LdapOperationInterface $operation = null)
+    public function setOperation(?LdapOperationInterface $operation = null)
     {
         $this->operation = $operation;
     }

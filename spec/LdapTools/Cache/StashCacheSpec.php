@@ -156,17 +156,17 @@ class StashCacheSpec extends ObjectBehavior
 
         $item->set(Argument::any())->willReturn($item);
         $item->get()->willReturn(null);
-        $item->lock()->willReturn(null);
+        $item->lock()->willReturn(true);
         $date = new \DateTime();
 
         $pool->getItem(Argument::any())->willReturn($item);
-        $pool->save($item)->shouldBeCalled();
-        $item->getExpiration()->willReturn(null, $date);
+        $pool->save($item)->shouldBeCalled()->willReturn(true);
+        $item->getExpiration()->willReturn(new \DateTime(), $date);
 
         $itemOne = new CacheItem(CacheItem::TYPE['SCHEMA_OBJECT'].'.foo.bar', new LdapObjectSchema('foo', 'bar'));
         $itemTwo = new CacheItem(CacheItem::TYPE['SCHEMA_OBJECT'].'.foo.bar', new LdapObjectSchema('foo', 'bar'), $date);
-        $item->expiresAt(null)->shouldBeCalled();
-        $item->expiresAt($date)->shouldBeCalled();
+        $item->expiresAt(null)->shouldBeCalled()->willReturn($item);
+        $item->expiresAt($date)->shouldBeCalled()->willReturn($item);
 
         $this->set($itemOne);
         $this->set($itemTwo);

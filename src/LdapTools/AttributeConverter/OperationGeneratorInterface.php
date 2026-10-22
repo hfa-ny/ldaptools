@@ -31,7 +31,7 @@ interface OperationGeneratorInterface
      *
      * @param LdapOperationInterface $operation
      */
-    public function setOperation(LdapOperationInterface  $operation = null);
+    public function setOperation(?LdapOperationInterface $operation = null);
 
     /**
      * Get whether the original value should be removed from the batch/array, leaving only the generated operation.

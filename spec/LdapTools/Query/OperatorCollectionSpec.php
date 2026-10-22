@@ -195,7 +195,7 @@ class OperatorCollectionSpec extends ObjectBehavior
         $this->toLdapFilter()->shouldBeEqualTo('(foo=bar)');
     }
     
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveFirstItemAs' => function($subject, $class) {

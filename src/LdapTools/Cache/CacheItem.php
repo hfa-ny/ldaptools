@@ -91,7 +91,7 @@ class CacheItem
      * @param \DateTimeInterface|null $time
      * @return $this
      */
-    public function setExpiresAt(\DateTimeInterface $time = null)
+    public function setExpiresAt(?\DateTimeInterface $time = null)
     {
         $this->expiry = $time;
 

@@ -20,7 +20,7 @@ interface LdapAwareInterface
     /**
      * @param LdapConnectionInterface $connection
      */
-    public function setLdapConnection(LdapConnectionInterface $connection = null);
+    public function setLdapConnection(?LdapConnectionInterface $connection = null);
 
     /**
      * @return LdapConnectionInterface

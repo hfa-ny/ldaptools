@@ -32,7 +32,7 @@ class DoctrineCache implements CacheInterface
      */
     protected $cache;
 
-    public function __construct(Cache $cache = null)
+    public function __construct(?Cache $cache = null)
     {
         $this->cacheFolder = sys_get_temp_dir().'/ldaptools';
         if ($cache) {

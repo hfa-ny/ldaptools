@@ -284,7 +284,7 @@ class DomainConfigurationSpec extends ObjectBehavior
         $this->shouldThrow('\LdapTools\Exception\ConfigurationException')->duringLoad($config);
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveKeyWithValue' => function($subject, $key, $value) {

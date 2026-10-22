@@ -53,7 +53,7 @@ interface CacheableOperationInterface
      * @param \DateTimeInterface|null $dateTime
      * @return $this
      */
-    public function setExpireCacheAt(\DateTimeInterface $dateTime = null);
+    public function setExpireCacheAt(?\DateTimeInterface $dateTime = null);
 
     /**
      * Get the time for when the cache should expire.

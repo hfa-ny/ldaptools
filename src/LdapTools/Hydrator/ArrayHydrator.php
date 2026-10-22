@@ -61,7 +61,7 @@ class ArrayHydrator implements HydratorInterface
     /**
      * @param LdapConnectionInterface|null $connection
      */
-    public function __construct(LdapConnectionInterface $connection = null)
+    public function __construct(?LdapConnectionInterface $connection = null)
     {
         $this->connection = $connection;
     }
@@ -98,7 +98,7 @@ class ArrayHydrator implements HydratorInterface
     /**
      * {@inheritdoc}
      */
-    public function setLdapObjectSchema(LdapObjectSchema $schema = null)
+    public function setLdapObjectSchema(?LdapObjectSchema $schema = null)
     {
         $this->schema = $schema;
     }
@@ -188,7 +188,7 @@ class ArrayHydrator implements HydratorInterface
     /**
      * {@inheritdoc}
      */
-    public function setLdapConnection(LdapConnectionInterface $connection = null)
+    public function setLdapConnection(?LdapConnectionInterface $connection = null)
     {
         $this->connection = $connection;
     }

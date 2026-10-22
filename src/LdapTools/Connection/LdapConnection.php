@@ -98,7 +98,7 @@ class LdapConnection implements LdapConnectionInterface
      * @param LdapLoggerInterface|null $logger
      * @param CacheInterface|null $cache
      */
-    public function __construct(DomainConfiguration $config, EventDispatcherInterface $dispatcher = null, LdapLoggerInterface $logger = null, CacheInterface $cache = null)
+    public function __construct(DomainConfiguration $config, ?EventDispatcherInterface $dispatcher = null, ?LdapLoggerInterface $logger = null, ?CacheInterface $cache = null)
     {
         $this->usernameFormatter = BindUserStrategy::getInstance($config);
         $this->serverPool = new LdapServerPool($config);

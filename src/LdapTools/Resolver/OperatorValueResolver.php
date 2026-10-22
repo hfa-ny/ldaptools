@@ -33,7 +33,7 @@ class OperatorValueResolver extends BaseValueResolver
      * @param OperatorCollection $operators
      * @param int $type The LDAP operation type. See AttributeConverterInterface::TYPE_*.
      */
-    public function __construct(LdapObjectSchema $schema = null, OperatorCollection $operators, $type)
+    public function __construct(?LdapObjectSchema $schema, OperatorCollection $operators, $type)
     {
         parent::__construct($schema, $type);
         $this->operators = $operators;

@@ -110,7 +110,7 @@ class Ldif
      * @param LdapConnectionInterface|null $connection
      * @param LdapObjectSchemaFactory|null $schemaFactory
      */
-    public function __construct(LdapConnectionInterface $connection = null, LdapObjectSchemaFactory $schemaFactory = null)
+    public function __construct(?LdapConnectionInterface $connection = null, ?LdapObjectSchemaFactory $schemaFactory = null)
     {
         $this->schemaFactory = $schemaFactory;
         $this->connection = $connection;

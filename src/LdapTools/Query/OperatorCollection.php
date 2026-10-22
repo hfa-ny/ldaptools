@@ -128,7 +128,7 @@ class OperatorCollection implements \IteratorAggregate
      *
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->sortOperatorsToArray());
     }

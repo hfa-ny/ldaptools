@@ -152,7 +152,7 @@ class TSPropertyArraySpec extends ObjectBehavior
         $this->isSignatureValid()->shouldEqual(false);
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'haveHex' => function($subject, $value) {

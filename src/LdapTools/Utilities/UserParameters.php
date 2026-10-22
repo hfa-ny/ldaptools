@@ -77,7 +77,7 @@ class UserParameters
      * @param DialInData|null $dialInData
      * @return $this
      */
-    public function setDialInData(DialInData $dialInData = null)
+    public function setDialInData(?DialInData $dialInData = null)
     {
         $this->dialInData = $dialInData;
 
@@ -100,7 +100,7 @@ class UserParameters
      * @param TSPropertyArray|null $tsPropertyArray
      * @return $this
      */
-    public function setTSPropertyArray(TSPropertyArray $tsPropertyArray = null)
+    public function setTSPropertyArray(?TSPropertyArray $tsPropertyArray = null)
     {
         $this->tsPropertyArray = $tsPropertyArray;
 

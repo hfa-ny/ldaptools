@@ -73,7 +73,7 @@ class LdapOperationInvoker implements LdapOperationInvokerInterface
      * @return mixed
      * @throws \Throwable
      */
-    protected function executeOperation(LdapOperationInterface $operation, LogOperation $log = null)
+    protected function executeOperation(LdapOperationInterface $operation, ?LogOperation $log = null)
     {
         $lastServer = $this->connection->getServer();
         try {
@@ -149,7 +149,7 @@ class LdapOperationInvoker implements LdapOperationInvokerInterface
      * @return array
      * @throws CacheMissException
      */
-    protected function getCacheOrHandlerResult(LdapOperationInterface $operation, OperationHandlerInterface $handler, LogOperation $log = null)
+    protected function getCacheOrHandlerResult(LdapOperationInterface $operation, OperationHandlerInterface $handler, ?LogOperation $log = null)
     {
         /** @var CacheableOperationInterface $operation */
         $cacheKey = $this->shouldUseCache($operation) ? $this->getCacheKey($operation) : null;

@@ -28,7 +28,7 @@ class SymfonyEventDispatcher implements EventDispatcherInterface
     /**
      * @param SymfonyEventDispatcherInterface|null $dispatcher
      */
-    public function __construct(SymfonyEventDispatcherInterface $dispatcher = null)
+    public function __construct(?SymfonyEventDispatcherInterface $dispatcher = null)
     {
         $this->dispatcher = $dispatcher ?: new EventDispatcher();
     }
